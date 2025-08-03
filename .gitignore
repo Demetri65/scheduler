@@ -1,0 +1,36 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtualenvs
+.venv/
+env/
+venv/
+
+# Build / dist
+dist/
+build/
+*.egg-info/
+
+# Editor files
+.vscode/
+.idea/
+
+# Secrets & env
+.env*
+credentials.json
+token.json
+
+# Docker
+*.log
+
+# Test output
+.coverage
+htmlcov/
+pytest_cache/
+
+# OS noise
+.DS_Store
+Thumbs.db
