@@ -99,7 +99,7 @@ The repository includes a normalized `Dockerfile` for a Python 3.11 multi-stage 
 docker build -t calendar-scheduler-agent .
 ```
 
-The current runtime command uses Gunicorn, but Gunicorn is not yet declared in the project's dependency files. Container startup therefore needs that packaging gap resolved before deployment.
+The current runtime command uses Gunicorn, but Gunicorn is not yet declared in the project's dependency files. The runtime image also copies the package to `/src/calendar_agent` without setting `WORKDIR`, `PYTHONPATH`, or a Gunicorn `--chdir`, so `calendar_agent.api.v1` is not importable from the image's default working directory. Both startup blockers need to be resolved before deployment.
 
 ## Repository structure
 
@@ -124,6 +124,6 @@ Dockerfile                                 # Multi-stage container definition
 - Event creation targets the authenticated user's primary calendar and has no confirmation, idempotency, retry, or rollback workflow.
 - Authentication uses a single shared API token rather than user-scoped identity or authorization.
 - Google OAuth is interactive on first use, so deployment needs a deliberate credential-provisioning strategy.
-- The container runtime dependency noted above is not yet packaged.
+- Container startup is blocked by both the undeclared Gunicorn dependency and the missing Python import-path configuration described above.
 
 This repository is a prototype intended to make the agent-to-tool boundary, external credential flow, and remaining production work visible.
